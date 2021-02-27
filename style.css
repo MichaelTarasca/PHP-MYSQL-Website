@@ -1,0 +1,12 @@
+.btn {
+    border-radius: 8px;
+    font-size: fs-2;
+}
+.d-flex{
+    justify-content: center;
+    margin-top: 5em;
+}
+.input{
+    margin-bottom: 10px !important;
+    padding: 10px;
+}
