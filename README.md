@@ -20,3 +20,11 @@
  - Create second page to separate movies from shows.
  - Login functionality with password hashing.
  - Better styling and layout of information.
+
+ ### Changelog
+ 
+ - 03/01/2021: Changed from mysqli statements to prepared PDO statements. 
+ - 02/28/2021: Cleaned up main page styling.
+
+
+![](https://github.com/MichaelTarasca/PHP-MYSQL-Website/blob/main/Images/addMovie.png)
