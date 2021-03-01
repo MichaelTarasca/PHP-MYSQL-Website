@@ -25,9 +25,9 @@
 <div class="d-flex justify-content-center mt-5em ">
   <form action="" method="post">
     <?php createButton("btn-create","btn btn-dark fs-2", "Add Movie", "create")?>
-    <?php createButton("btn-create", "btn btn-dark fs-2", "Request Table", "request")?>
-    <?php createButton("btn-create", "btn btn-dark fs-2", "Update Table", "update")?>
-    <?php createButton("btn-create", "btn btn-dark fs-2", "Delete Table", "delete")?>
+    <?php createButton("btn-create", "btn btn-dark fs-2", "Request All Movies", "request")?>
+    <?php createButton("btn-create", "btn btn-dark fs-2", "Update Movie", "update")?>
+    <?php createButton("btn-create", "btn btn-dark fs-2", "Delete Movie", "delete")?>
   </form>
 </div>
 <!-- ADD MOVIE -->
@@ -35,7 +35,7 @@
 //TODO: create function to check this process rather than repeat the code
   if(isset($_POST['create'])){
     ?>
-<div class="d-flex justify-content-center p-2" style="display: block">
+<div class="d-flex mx-auto text-center" style="display: block">
   <?php
   }else {
   ?>
@@ -49,7 +49,7 @@
       <input type="text" class="form-control" name="movie_director" autocomplete="off" placeholder="Enter Director Name" required autofocus> <br>
       <input type="text" class="form-control" name="movie_type" autocomplete="off" placeholder="Enter Movie Genre" required autofocus> <br>
       <input type="text" class="form-control" name="movie_location" autocomplete="off" placeholder="Enter Movie Location" required autofocus> <br>
-      <?php createButton("btn-create","btn btn-success", "Submit", "submitAdd")?>
+      <?php createButton("btn-create","btn btn-success btn-lg", "Submit", "submitAdd")?>
     </form>
 </div>
 <!-- DISPLAY DATA -->
@@ -64,15 +64,14 @@
   <?php
   }
   ?>
- <div class="d-flex table-data justify-content-center w-50">
- <table class="table table-dark">
+ <table class="table table-data table-dark w-50">
  <?php insertTableHead(); ?>
  <tbody>
  <?php
   $result = getTable();
   if($result){
 
-    while($row=mysqli_fetch_assoc($result)){?>
+    while($row=$result->fetch()){?>
     <tr>
     <td><?php echo $row['movie_id'];?></td> <!-- TO DO: make this into a function that works for shows and movies -->
     <td><?php echo $row['movie_name'];?></td>
@@ -88,14 +87,13 @@
  </tbody>
  </table>
  </div>
- </div>
 
  <!-- Update Existing Entry -->
  <?php
 //TODO: create function to check this process rather than repeat the code
 if(isset($_POST['update'])){
     ?>
-    <div class="d-flex"  style="display: block">
+    <div class="d-flex mx-auto"  style="display: block">
 <?php
 }else {
 ?>
@@ -104,49 +102,48 @@ if(isset($_POST['update'])){
 }
 ?>
 <form action="" method="post">
-<input type="text" name="name_update"autocomplete="off" placeholder="Enter Movie Name" required autofocus > <br>
-<?php createButton("btn-create","btn btn-warning", "Submit", "fetchUpdate")?> <br>
+<input type="text" name="name_update"autocomplete="off" placeholder="Enter Movie Name" required autofocus > 
+<?php createButton("btn-create","btn btn-warning", "Submit", "fetchUpdate")?>
 </form>
 </div>
-<div class="container justify-content-center">
+<div class="container">
 <?php
 if((isset($_POST['fetchUpdate']))){
-    $name = $_POST['name_update'];
-    $tableRow = mysqli_fetch_assoc(getRow($_POST['name_update']));
-    if ($tableRow){
+    $row = getRow($_POST['name_update']);
+    if ($row){
 ?>
-<table class="table">
+<table class="table bg-dark text-light my-5">
 <?php insertTableHead(); ?>
 <tbody>
 <tr>
-    <td><?php echo $tableRow['movie_id'];?></td> <!-- TO DO: make this into a function that works for shows and movies -->
-    <td><?php echo $tableRow['movie_name'];?></td>
-    <td><?php echo $tableRow['movie_actor'];?></td>
-    <td><?php echo $tableRow['movie_director'];?></td>
-    <td><?php echo $tableRow['movie_type'];?></td>
-    <td><?php echo $tableRow['movie_location'];?></td>
+    <td><?php echo $row['movie_id'];?></td> <!-- TO DO: make this into a function that works for shows and movies -->
+    <td><?php echo $row['movie_name'];?></td>
+    <td><?php echo $row['movie_actor'];?></td>
+    <td><?php echo $row['movie_director'];?></td>
+    <td><?php echo $row['movie_type'];?></td>
+    <td><?php echo $row['movie_location'];?></td>
 </tbody>
 </tr>
 </table>
-<div class="container-sm">
-  <form action="" method="post">
-    <input type="hidden" name="id" value="<?php echo $tableRow['movie_id']; ?>">
-    Current Name: <?php echo $tableRow['movie_name'];?> <br>
+<div class="container"  style="width: 400px;">
+  <form class="text-center" action="" method="post">
+    <input type="hidden" name="id" value="<?php echo $row['movie_id']; ?>">
+    Current Name: <?php echo $row['movie_name'];?> 
     <input type="text"  class="form-control" name="name_update"autocomplete="off" placeholder="Enter New Movie Name" required autofocus> 
-    Current Actor: <?php echo $tableRow['movie_actor'];?> <br>
+    Current Actor: <?php echo $row['movie_actor'];?> 
     <input type="text"  class="form-control" name="actor_update"autocomplete="off" placeholder="Enter New Actor Name" required autofocus> 
-    Current Director: <?php echo $tableRow['movie_director'];?> <br>
+    Current Director: <?php echo $row['movie_director'];?> 
     <input type="text"  class="form-control" name="director_update"autocomplete="off" placeholder="Enter New Director Name" required autofocus>
-    Current Genre: <?php echo $tableRow['movie_type'];?> <br>
+    Current Genre: <?php echo $row['movie_type'];?> 
     <input type="text"  class="form-control" name="type_update"autocomplete="off" placeholder="Enter New Genre" required autofocus> 
-    Current Location: <?php echo $tableRow['movie_location'];?> <br>
+    Current Location: <?php echo $row['movie_location'];?> 
     <input type="text"  class="form-control" name="location_update"autocomplete="off" placeholder="Enter New Location" required autofocus> 
-    <?php createButton("btn-create","btn btn-warning", "Submit", "submitUpdate")?> <br>
+    <?php createButton("btn-create","btn btn-warning btn-lg", "Submit", "submitUpdate")?> 
   </form>
 </div>
 <?php
     }else{
-        echo "Movie no existo";
+        echo "Movie doesn't Exist"; // TODO: Better error messages
     }
 }
 ?>
@@ -165,41 +162,41 @@ if(isset($_POST['delete'])){
 }
 ?>
 <form action="" method="post">
-<input type="text" name="name_update"autocomplete="off" placeholder="Enter Movie Name" required autofocus > <br>
-<?php createButton("btn-create","btn btn-danger", "Submit", "fetchDelete")?> <br>
+<input type="text" name="name_delete"autocomplete="off" placeholder="Enter Movie Name" required autofocus >
+<?php createButton("btn-create","btn btn-danger", "Submit", "fetchDelete")?> 
 </form>
 </div>
 <div>
 <?php
 if((isset($_POST['fetchDelete']))){
-    $name = $_POST['name_update'];
-    $tableRow = mysqli_fetch_assoc(getRow($_POST['name_update']));
-    if ($tableRow){
+  $row = getRow($_POST['name_delete']);
+    if ($row){
 ?>
 <div class="container">
-<table class="table">
+<table class="table bg-dark text-light my-5">
 <?php insertTableHead(); ?>
   <tbody>
       <tr>
-        <td><?php echo $tableRow['movie_id'];?></td> <!-- TO DO: make this into a function that works for shows and movies -->
-        <td><?php echo $tableRow['movie_name'];?></td>
-        <td><?php echo $tableRow['movie_actor'];?></td>
-        <td><?php echo $tableRow['movie_director'];?></td>
-        <td><?php echo $tableRow['movie_type'];?></td>
-        <td><?php echo $tableRow['movie_location'];?></td>
+        <td><?php echo $row['movie_id'];?></td> <!-- TO DO: make this into a function that works for shows and movies -->
+        <td><?php echo $row['movie_name'];?></td>
+        <td><?php echo $row['movie_actor'];?></td>
+        <td><?php echo $row['movie_director'];?></td>
+        <td><?php echo $row['movie_type'];?></td>
+        <td><?php echo $row['movie_location'];?></td>
       </tr>
     </tbody>
   </table>
 </div>
-<div class="container pl-4">
-  <form action="" method="post">
-    <input type="hidden" name="id" value="<?php echo $tableRow['movie_id']; ?>">
-    Are you Sure? <?php createButton("btn-create","btn btn-danger", "Yes", "deleteMovie");?>
-    <?php createButton("btn-create","btn btn-warning", "No", "");?> <br> <!-- should link back to base page -->
+<div class="container text-center">
+  <form class="mx-auto" action="" method="post">
+    <input type="hidden" name="id" value="<?php echo $row['movie_id']; ?>">
+    <h1>Are you Sure?</h1>
+    <?php createButton("btn-create","btn btn-danger btn-lg", "Yes", "deleteMovie");?>
+    <?php createButton("btn-create","btn btn-warning btn-lg", "No", "");?> <!-- should link back to base page -->
   </form>
 <?php
     }else{
-        echo "Movie no existo";
+        echo "Movie doesn't exist!";
     }
 }  
 ?>

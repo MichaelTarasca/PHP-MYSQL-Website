@@ -5,7 +5,10 @@ function createDB(){ // for creating database + table and establishing connectio
     $password = "";
     $dbName = "media";
 //connect to mysql server
-    return $con = mysqli_connect($serverName, $userName, $password, $dbName);
+    //return $con = mysqli_connect($serverName, $userName, $password, $dbName);
+   
+   return $con = new PDO("mysql:host=$serverName;dbname=$dbName", $userName, $password);
+   $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //check if connection fails
 //     if (!$con){
 //         die("Connection Failed:".mysqli_connect_error());
